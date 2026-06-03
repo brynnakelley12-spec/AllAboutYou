@@ -396,7 +396,7 @@ window.renderCards = () => {
     if(!q) return true;
     if(f.name.toLowerCase().includes(q)) return true;
     return Object.values(f.entries||{}).some(arr=>arr.some(e=>e.toLowerCase().includes(q)));
-  });
+  }).sort((a,b) => a.name.localeCompare(b.name));
   if(!filtered.length) {
     grid.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><p>${friends.length===0?'No friends yet.<br>Add someone to get started!':'No matches found.'}</p></div>`;
     return;
