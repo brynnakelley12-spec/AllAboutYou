@@ -193,9 +193,10 @@
   <div class="friend-page">
     <div class="friend-page-header">
       <div id="fp-name" class="friend-page-name"></div>
+      <div id="fp-claim" style="margin-top:0.75rem"></div>
     </div>
     <div id="fp-cats" class="cats-grid"></div>
-    <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end">
+    <div id="fp-footer" style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end">
       <button class="delete-btn" id="fp-delete-btn">Remove friend</button>
     </div>
   </div>
@@ -377,6 +378,16 @@ window.deleteFriend = async (id) => {
   showToast('Friend removed.');
 };
 
+window.claimPage = async (id) => {
+  const user = auth.currentUser;
+  if(!user) return;
+  const f = friends.find(x=>x.id===id);
+  if(!f || f.ownerUid) return;
+  if(!confirm(`Claim this page as yours? Your Google account will be linked to ${f.name}.`)) return;
+  await updateDoc(doc(db,'friends',id), { ownerUid: user.uid });
+  showToast('Page claimed!');
+};
+
 // RENDER HOME
 window.renderCards = () => {
   const q = document.getElementById('search').value.toLowerCase();
@@ -411,8 +422,25 @@ window.openFriendPage = (id) => {
 };
 
 function renderFriendPage(f) {
+  const user = auth.currentUser;
+  const isOwner = user && f.ownerUid === user.uid;
+  const unclaimed = !f.ownerUid;
+
   document.getElementById('fp-name').innerHTML = `<span class="rainbow-text">${f.name}</span>`;
   document.getElementById('fp-delete-btn').onclick = () => deleteFriend(f.id);
+
+  // Claim banner
+  const claimEl = document.getElementById('fp-claim');
+  if(unclaimed) {
+    claimEl.innerHTML = `<button onclick="claimPage('${f.id}')" style="display:inline-flex;align-items:center;gap:7px;padding:8px 18px;border-radius:100px;border:1.5px dashed rgba(28,25,23,0.2);background:none;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-soft);cursor:pointer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      This is my page
+    </button>`;
+  } else if(isOwner) {
+    claimEl.innerHTML = `<span style="font-size:13px;color:var(--text-muted);display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>This is your page</span>`;
+  } else {
+    claimEl.innerHTML = `<span style="font-size:13px;color:var(--text-muted)">This page belongs to someone else</span>`;
+  }
 
   const entries = f.entries||{};
   const fp = document.getElementById('fp-cats');
@@ -426,17 +454,22 @@ function renderFriendPage(f) {
     const inputId = `inp-${f.id}-${ci}`;
     const items = entries[cat]||[];
     const dotColor = DOTCOLORS[ci%DOTCOLORS.length];
-    const tags = items.map((e,i)=>`<span class="entry-tag">${e}<button onclick="removeEntry('${f.id}',${ci},${i})" aria-label="Remove">×</button></span>`).join('');
+    const removeBtns = isOwner;
+    const tags = items.map((e,i)=>`<span class="entry-tag">${e}${removeBtns?`<button onclick="removeEntry('${f.id}',${ci},${i})" aria-label="Remove">×</button>`:''}</span>`).join('');
+    const addRow = isOwner ? `<div class="add-entry">
+        <input id="${inputId}" type="text" placeholder="Add…" onkeydown="if(event.key==='Enter')addEntry('${f.id}',${ci})">
+        <button onclick="addEntry('${f.id}',${ci})"><span>Add</span></button>
+      </div>` : '';
     return `<div class="cat-section">
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:${dotColor}"></div>
       <h3><span class="cat-dot" style="background:${dotColor}"></span>${cat}</h3>
       <div class="entry-list">${tags||'<span style="font-size:12px;color:var(--text-muted)">Empty</span>'}</div>
-      <div class="add-entry">
-        <input id="${inputId}" type="text" placeholder="Add…" onkeydown="if(event.key==='Enter')addEntry('${f.id}',${ci})">
-        <button onclick="addEntry('${f.id}',${ci})"><span>Add</span></button>
-      </div>
+      ${addRow}
     </div>`;
   }).join('');
+
+  // Hide delete button for non-owners
+  document.getElementById('fp-footer').style.display = isOwner ? 'flex' : 'none';
 }
 
 // MODALS
