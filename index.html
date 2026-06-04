@@ -155,7 +155,7 @@
 <div id="view-landing">
   <div class="hero">
     <h1><span class="rainbow-text">It's All About You</span></h1>
-    <p>A shared space where we can share our likes, dislikes, and other things friends want to know.</p>
+    <p>A community space where we can share our likes, dislikes, and other things friends want to know.</p>
     <button class="hero-cta" onclick="signIn()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13 12H3"/></svg>
       <span>Sign in to get started</span>
@@ -179,11 +179,11 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         <input id="search" type="text" placeholder="Search friends or entries…" oninput="renderCards()">
       </div>
-      <button class="tb-btn tb-btn-outline" onclick="openCatModal()">
+      <button class="tb-btn tb-btn-outline" onclick="openCatModal()" id="manage-cats-btn" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         <span>Manage categories</span>
       </button>
-      <button class="tb-btn tb-btn-rainbow" onclick="openFriendModal()">
+      <button class="tb-btn tb-btn-rainbow" onclick="openFriendModal()" id="add-friend-btn" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
         <span>Add friend</span>
       </button>
@@ -197,6 +197,7 @@
   <div class="friend-page">
     <div class="friend-page-header">
       <div id="fp-name" class="friend-page-name"></div>
+      <div id="fp-edit"></div>
       <div id="fp-claim" style="margin-top:0.75rem"></div>
     </div>
     <div id="fp-cats" class="cats-grid"></div>
@@ -285,6 +286,10 @@ onAuthStateChanged(auth, user => {
   if(user) {
     document.getElementById('auth-btn').innerHTML = `<img src="${user.photoURL||''}" onerror="this.style.display='none'"> Sign out`;
     document.getElementById('auth-btn').onclick = window.signOut2;
+    if(user.email === 'brynnakelley12@gmail.com') {
+      document.getElementById('manage-cats-btn').style.display = 'flex';
+      document.getElementById('add-friend-btn').style.display = 'flex';
+    }
     showView('home');
     startListening();
   } else {
@@ -297,7 +302,7 @@ onAuthStateChanged(auth, user => {
 
 function startListening() {
   unsubCats = onSnapshot(doc(db,'config','categories'), snap => {
-    categories = snap.exists() ? (snap.data().list||[]) : [];
+    categories = snap.exists() ? (snap.data().list||[]).sort((a,b) => a.localeCompare(b)) : [];
     renderCatManagerList();
     if(currentFriendId) { const f=friends.find(x=>x.id===currentFriendId); if(f) renderFriendPage(f); }
   });
@@ -382,6 +387,14 @@ window.deleteFriend = async (id) => {
   showToast('Friend removed.');
 };
 
+window.saveName = async (id) => {
+  const name = document.getElementById('edit-name').value.trim();
+  const note = document.getElementById('edit-note').value.trim();
+  if(!name) { showToast('Name cannot be empty.'); return; }
+  await updateDoc(doc(db,'friends',id), { name, note });
+  showToast('Updated!');
+};
+
 window.claimPage = async (id) => {
   const user = auth.currentUser;
   if(!user) return;
@@ -405,33 +418,66 @@ window.renderCards = () => {
     grid.innerHTML=`<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg><p>${friends.length===0?'No friends yet.<br>Add someone to get started!':'No matches found.'}</p></div>`;
     return;
   }
+  const today = new Date();
+  const todayMonth = today.getMonth() + 1;
+  const todayDay = today.getDate();
+
+  function isBirthdayToday(entries) {
+    const bdays = (entries && entries['Birthday']) || [];
+    const months = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+    return bdays.some(b => {
+      const slashMatch = b.match(/^(\d{1,2})[\/\-](\d{1,2})/);
+      const wordMatch = b.match(/([a-zA-Z]+)\s+(\d{1,2})/);
+      let month = null, day = null;
+      if(slashMatch) { month = parseInt(slashMatch[1]); day = parseInt(slashMatch[2]); }
+      else if(wordMatch) { month = months.indexOf(wordMatch[1].toLowerCase()) + 1; day = parseInt(wordMatch[2]); }
+      return month === todayMonth && day === todayDay;
+    });
+  }
+
   grid.innerHTML = filtered.map(f => {
     const entries = f.entries||{};
     const total = Object.values(entries).reduce((s,a)=>s+a.length,0);
     const filledCats = categories.filter(c=>(entries[c]||[]).length>0).slice(0,3);
     const pills = filledCats.map(c=>`<span class="card-cat-pill" style="background:${DOTCOLORS[categories.indexOf(c)%DOTCOLORS.length]}">${c}</span>`).join('');
-    return `<div class="friend-card" onclick="openFriendPage('${f.id}')">
-      <div class="card-name">${f.name}</div>
-      <div class="card-meta">${f.note||'Friend'} · ${total} entries</div>
-      <div class="card-cats">${pills}</div>
+    const bday = isBirthdayToday(entries);
+    return `<div class="friend-card" onclick="openFriendPage('${f.id}', this.dataset.q)" data-q="${(q||'').replace(/"/g,'&quot;')}">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="card-name" style="font-family:'Righteous',sans-serif;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${f.name}</div>
+        ${bday ? '<span style="font-size:20px">🎂</span>' : ''}
+      </div>
+      ${f.note ? `<div class="card-meta" style="margin-top:4px">${f.note}</div>` : ''}
     </div>`;
   }).join('');
 };
 
 // FRIEND PAGE
-window.openFriendPage = (id) => {
+window.openFriendPage = (id, searchTerm) => {
   currentFriendId = id;
   const f = friends.find(x=>x.id===id);
-  if(f) { renderFriendPage(f); showView('friend'); }
+  if(f) { renderFriendPage(f, searchTerm); showView('friend'); }
 };
 
-function renderFriendPage(f) {
+function renderFriendPage(f, searchTerm) {
   const user = auth.currentUser;
+  const isAdmin = user && user.email === 'brynnakelley12@gmail.com';
   const isOwner = user && f.ownerUid === user.uid;
+  const canDelete = isOwner || isAdmin;
   const unclaimed = !f.ownerUid;
 
   document.getElementById('fp-name').innerHTML = `<span class="rainbow-text">${f.name}</span>`;
   document.getElementById('fp-delete-btn').onclick = () => deleteFriend(f.id);
+
+  const editEl = document.getElementById('fp-edit');
+  if(isOwner) {
+    editEl.innerHTML = `<div style="display:flex;gap:8px;margin-top:0.75rem;flex-wrap:wrap">
+      <input id="edit-name" type="text" value="${f.name.replace(/"/g,'&quot;')}" placeholder="Name" style="padding:7px 12px;border-radius:100px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;flex:1;min-width:120px">
+      <input id="edit-note" type="text" value="${(f.note||'').replace(/"/g,'&quot;')}" placeholder="Note (optional)" style="padding:7px 12px;border-radius:100px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;flex:1;min-width:120px">
+      <button onclick="saveName('${f.id}')" style="padding:7px 16px;border-radius:100px;border:none;color:#000;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;position:relative;overflow:hidden;white-space:nowrap"><span style="position:relative;z-index:1">Save</span><span style="position:absolute;inset:0;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9)"></span></button>
+    </div>`;
+  } else {
+    editEl.innerHTML = '';
+  }
 
   // Claim banner
   const claimEl = document.getElementById('fp-claim');
@@ -473,7 +519,7 @@ function renderFriendPage(f) {
   }).join('');
 
   // Hide delete button for non-owners
-  document.getElementById('fp-footer').style.display = isOwner ? 'flex' : 'none';
+  document.getElementById('fp-footer').style.display = canDelete ? 'flex' : 'none';
 }
 
 // MODALS
