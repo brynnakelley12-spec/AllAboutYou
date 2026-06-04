@@ -173,6 +173,7 @@
 
 <!-- HOME (friend grid) -->
 <div id="view-home">
+  <div id="bday-banner" style="display:none;text-align:center;padding:12px 2rem;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);color:#000;font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px"></div>
   <div class="main">
     <div class="toolbar">
       <div class="search-wrap">
@@ -433,6 +434,17 @@ window.renderCards = () => {
       else if(wordMatch) { month = months.indexOf(wordMatch[1].toLowerCase()) + 1; day = parseInt(wordMatch[2]); }
       return month === todayMonth && day === todayDay;
     });
+  }
+
+  // Birthday banner
+  const birthdayFriends = friends.filter(f => isBirthdayToday(f.entries||{}));
+  const banner = document.getElementById('bday-banner');
+  if(birthdayFriends.length) {
+    const names = birthdayFriends.map(f => f.name).join(' & ');
+    banner.textContent = `🎂 Happy Birthday, ${names}! 🎂`;
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
   }
 
   grid.innerHTML = filtered.map(f => {
