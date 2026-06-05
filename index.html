@@ -586,7 +586,10 @@ window.renderCards = () => {
     const isMe = auth.currentUser && f.ownerUid === auth.currentUser.uid;
     return `<div class="friend-card" onclick="openFriendPage('${f.id}', this.dataset.q)" data-q="${(q||'').replace(/"/g,'&quot;')}" style="${isMe ? 'border:2px solid transparent;background-image:linear-gradient(var(--surface),var(--surface)),linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);background-origin:border-box;background-clip:padding-box,border-box;' : ''}">
       <div style="display:flex;align-items:center;gap:8px">
-        <div class="card-name" style="display:flex;align-items:baseline;gap:1px"><span style="font-family:'Uncial Antiqua',cursive;font-size:24px;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1">${f.name[0]}</span><span style="font-family:'Righteous',sans-serif;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${f.name.slice(1)}</span></div>
+        <div class="card-name" style="display:flex;align-items:baseline;gap:1px">${(f.name.length >= 2 && f.name[1] === f.name[1].toUpperCase() && f.name[1] !== f.name[1].toLowerCase()) ?
+  `<span style="font-family:'Uncial Antiqua',cursive;font-size:20px;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1">${f.name}</span>` :
+  `<span style="font-family:'Uncial Antiqua',cursive;font-size:24px;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1">${f.name[0]}</span><span style="font-family:'Righteous',sans-serif;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${f.name.slice(1)}</span>`
+}</div>
         ${bday ? '<span style="font-size:20px">🎂</span>' : ''}
       </div>
       ${f.note ? `<div class="card-meta" style="margin-top:4px">${f.note}</div>` : ''}
