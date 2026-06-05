@@ -198,7 +198,8 @@
     <div class="toolbar">
       <div class="search-wrap">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input id="search" type="text" placeholder="Search friends or entries…" oninput="renderCards()">
+        <input id="search" type="text" placeholder="Search friends or entries…" oninput="renderCards();document.getElementById('search-clear').style.display=this.value?'block':'none'">
+        <button id="search-clear" onclick="document.getElementById('search').value='';renderCards();this.style.display='none'" style="display:none;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px;line-height:1;padding:0 2px;flex-shrink:0">×</button>
       </div>
       <button class="tb-btn tb-btn-outline" onclick="openCatModal()" id="manage-cats-btn" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
@@ -390,13 +391,44 @@ function renderCatManagerList() {
   const list = document.getElementById('cat-manager-list');
   if(!categories.length) { list.innerHTML='<div class="empty-cats">No categories yet!</div>'; return; }
   list.innerHTML = categories.map((c,i)=>`
-    <div class="cat-manager-item">
-      <span style="display:flex;align-items:center;gap:8px">
-        <span style="width:10px;height:10px;border-radius:50%;flex-shrink:0;background:${DOTCOLORS[i%DOTCOLORS.length]}"></span>${c}
+    <div class="cat-manager-item" id="cat-item-${i}">
+      <span style="display:flex;align-items:center;gap:8px;flex:1">
+        <span style="width:10px;height:10px;border-radius:50%;flex-shrink:0;background:${DOTCOLORS[i%DOTCOLORS.length]}"></span>
+        <span id="cat-label-${i}">${c}</span>
+        <input id="cat-edit-${i}" type="text" value="${c}" style="display:none;flex:1;padding:4px 10px;border-radius:100px;border:1px solid var(--border);background:var(--surface2);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none" onkeydown="if(event.key==='Enter')saveCategoryEdit(${i})">
       </span>
-      <button onclick="removeCategory(${i})" aria-label="Remove">×</button>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button id="cat-edit-btn-${i}" onclick="startCategoryEdit(${i})" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:15px;padding:0 4px">✏️</button>
+        <button id="cat-save-btn-${i}" onclick="saveCategoryEdit(${i})" style="display:none;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:13px;padding:0 4px;font-family:'DM Sans',sans-serif">Save</button>
+        <button onclick="removeCategory(${i})" aria-label="Remove ${c}">×</button>
+      </div>
     </div>`).join('');
 }
+
+window.startCategoryEdit = (i) => {
+  document.getElementById(`cat-label-${i}`).style.display = 'none';
+  document.getElementById(`cat-edit-${i}`).style.display = 'block';
+  document.getElementById(`cat-edit-btn-${i}`).style.display = 'none';
+  document.getElementById(`cat-save-btn-${i}`).style.display = 'block';
+  document.getElementById(`cat-edit-${i}`).focus();
+};
+
+window.saveCategoryEdit = async (i) => {
+  const newName = document.getElementById(`cat-edit-${i}`).value.trim();
+  if(!newName) { showToast('Category name cannot be empty.'); return; }
+  if(categories.includes(newName) && newName !== categories[i]) { showToast('Category already exists.'); return; }
+  const oldName = categories[i];
+  categories[i] = newName;
+  await saveCategories();
+  const updates = friends.filter(f => f.entries && f.entries[oldName]);
+  for(const f of updates) {
+    const entries = {...f.entries};
+    entries[newName] = entries[oldName];
+    delete entries[oldName];
+    await updateDoc(doc(db,'friends',f.id), { entries });
+  }
+  showToast(`Renamed to "${newName}"!`);
+};
 
 // FRIENDS
 window.addFriend = async () => {
@@ -522,7 +554,7 @@ window.renderCards = () => {
 window.openFriendPage = (id, searchTerm) => {
   currentFriendId = id;
   const f = friends.find(x=>x.id===id);
-  if(f) { renderFriendPage(f, searchTerm); showView('friend'); }
+  if(f) { renderFriendPage(f, searchTerm); showView('friend'); window.scrollTo({top:0, behavior:'smooth'}); }
 };
 
 function renderFriendPage(f, searchTerm) {
@@ -572,7 +604,14 @@ function renderFriendPage(f, searchTerm) {
     const items = entries[cat]||[];
     const dotColor = DOTCOLORS[ci%DOTCOLORS.length];
     const removeBtns = isOwner;
-    const tags = items.map((e,i)=>`<span class="entry-tag">${e}${removeBtns?`<button onclick="removeEntry('${f.id}',${ci},${i})" aria-label="Remove">×</button>`:''}</span>`).join('');
+
+    // Hide empty categories from non-owners
+    if(!isOwner && items.length === 0) return '';
+
+    const tags = items.map((e,i)=>{
+      const isMatch = searchTerm && e.toLowerCase().includes(searchTerm.toLowerCase());
+      return `<span class="entry-tag" ${isMatch?'style="border-color:var(--r);background:#fff5f5;font-weight:500"':''}>${e}${removeBtns?`<button onclick="removeEntry('${f.id}',${ci},${i})" aria-label="Remove">×</button>`:''}</span>`;
+    }).join('');
     const addRow = isOwner ? `<div class="add-entry">
         <input id="${inputId}" type="text" placeholder="Add…" onkeydown="if(event.key==='Enter')addEntry('${f.id}',${ci})">
         <button onclick="addEntry('${f.id}',${ci})"><span>Add</span></button>
