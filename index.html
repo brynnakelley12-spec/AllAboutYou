@@ -299,7 +299,7 @@
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCPFKQtyzcU_poQxKwt4ZqyHQZaD0P7eBo",
@@ -404,6 +404,8 @@ function startListening() {
     renderCards();
     if(currentFriendId) { const f=friends.find(x=>x.id===currentFriendId); if(f) renderFriendPage(f); else goHome(); }
   });
+
+  loadSuggestions();
 }
 
 // CATEGORIES
@@ -782,6 +784,7 @@ window.submitSuggestion = async () => {
   });
   inp.value = '';
   showToast('Suggestion submitted!');
+  loadSuggestions();
 };
 
 function renderSuggestions(suggestions) {
@@ -801,7 +804,18 @@ function renderSuggestions(suggestions) {
 
 window.deleteSuggestion = async (id) => {
   await deleteDoc(doc(db,'suggestions',id));
+  loadSuggestions();
 };
+
+async function loadSuggestions() {
+  try {
+    const snap = await getDocs(collection(db,'suggestions'));
+    const suggestions = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.createdAt-a.createdAt);
+    renderSuggestions(suggestions);
+  } catch(err) {
+    console.error('Load suggestions error:', err.code, err.message);
+  }
+}
 
 function showToast(msg) {
   const t=document.getElementById('toast');
