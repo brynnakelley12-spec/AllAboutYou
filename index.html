@@ -13,8 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500&family=Righteous&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --r: #E63946; --o: #F4A261; --y: #E9C46A; --g: #E76F51;
-    --b: #A8282A; --i: #C1440E; --v: #F4D03F;
+    --r: #FF3B3B; --o: #FF7A00; --y: #FFD000; --g: #00C853;
+    --b: #0075FF; --i: #7C3AED; --v: #D500F9;
     --bg: #FFFFFF; --surface: #F5F5F5; --surface2: #EBEBEB;
     --text: #1C1917; --text-soft: rgba(28,25,23,0.6); --text-muted: rgba(28,25,23,0.35);
     --border: rgba(28,25,23,0.1); --radius: 14px;
@@ -63,8 +63,8 @@
   .tb-btn-outline:hover { border-color: rgba(28,25,23,0.3); transform: none; }
 
   /* FRIEND GRID */
-  .friends-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px,1fr)); gap: 14px; }
-  .friend-card { background: var(--surface); border-radius: var(--radius); padding: 0.6rem 0.85rem; cursor: pointer; transition: box-shadow 0.15s, transform 0.1s; animation: fadeUp 0.3s ease forwards; position: relative; overflow: hidden; border: 1px solid var(--border); }
+  .friends-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 14px; }
+  .friend-card { background: var(--surface); border-radius: var(--radius); padding: 1.25rem; cursor: pointer; transition: box-shadow 0.15s, transform 0.1s; animation: fadeUp 0.3s ease forwards; position: relative; overflow: hidden; border: 1px solid var(--border); }
   .friend-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background: linear-gradient(90deg, var(--r), var(--o), var(--y), var(--g), var(--b), var(--i), var(--v)); }
   .friend-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
   @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
@@ -164,7 +164,7 @@
       </div>
       <button id="auth-submit-btn" onclick="signInEmail()" style="width:100%;padding:13px;border-radius:100px;border:none;color:#000;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;position:relative;overflow:hidden;margin-bottom:10px">
         <span style="position:relative;z-index:1">Sign in</span>
-        <span style="position:absolute;inset:0;background:linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F)"></span>
+        <span style="position:absolute;inset:0;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9)"></span>
       </button>
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
         <div style="flex:1;height:1px;background:var(--border)"></div>
@@ -184,16 +184,16 @@
       📱 Use as an app — tap Share then "Add to Home Screen" on iPhone, or the menu then "Add to Home Screen" on Android
     </p>
     <div style="display:flex;gap:14px;justify-content:center;margin-top:2rem;flex-wrap:wrap">
-      <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=600&auto=format&fit=crop&q=60" alt="movies" style="width:160px;height:160px;object-fit:cover;border-radius:16px;border:3px solid transparent;background-image:linear-gradient(white,white),linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F);background-origin:border-box;background-clip:padding-box,border-box">
-      <img src="https://images.unsplash.com/photo-1576867757603-05b134ebc379?w=600&auto=format&fit=crop&q=60" alt="food" style="width:160px;height:160px;object-fit:cover;border-radius:16px;border:3px solid transparent;background-image:linear-gradient(white,white),linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F);background-origin:border-box;background-clip:padding-box,border-box">
-      <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?w=600&auto=format&fit=crop&q=60" alt="music" style="width:160px;height:160px;object-fit:cover;border-radius:16px;border:3px solid transparent;background-image:linear-gradient(white,white),linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F);background-origin:border-box;background-clip:padding-box,border-box">
+      <img src="https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=500&auto=format&fit=crop&q=60" alt="books" style="width:160px;height:160px;object-fit:cover;border-radius:16px;border:3px solid transparent;background-image:linear-gradient(white,white),linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);background-origin:border-box;background-clip:padding-box,border-box">
+      <img src="https://images.unsplash.com/photo-1574484184081-afea8a62f9c0?w=500&auto=format&fit=crop&q=60" alt="party food" style="width:160px;height:160px;object-fit:cover;border-radius:16px;border:3px solid transparent;background-image:linear-gradient(white,white),linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);background-origin:border-box;background-clip:padding-box,border-box">
+      <img src="https://images.unsplash.com/photo-1603905179139-db12ab535ca9?w=500&auto=format&fit=crop&q=60" alt="candles" style="width:160px;height:160px;object-fit:cover;border-radius:16px;border:3px solid transparent;background-image:linear-gradient(white,white),linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);background-origin:border-box;background-clip:padding-box,border-box">
     </div>
-
   </div>
 </div>
 
 <!-- HOME (friend grid) -->
 <div id="view-home">
+  <div id="bday-banner" style="display:none;text-align:center;padding:12px 2rem;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);color:#000;font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.5px"></div>
   <div class="main">
     <div class="toolbar">
       <div class="search-wrap">
@@ -204,10 +204,6 @@
       <button class="tb-btn tb-btn-outline" onclick="openCatModal()" id="manage-cats-btn" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         <span>Manage categories</span>
-      </button>
-      <button class="tb-btn tb-btn-outline" onclick="openCalendar()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        <span>Calendar</span>
       </button>
       <button class="tb-btn tb-btn-rainbow" onclick="openFriendModal()" id="add-friend-btn" style="display:none">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
@@ -229,41 +225,6 @@
     <div id="fp-cats" class="cats-grid"></div>
     <div id="fp-footer" style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end">
       <button class="delete-btn" id="fp-delete-btn">Remove friend</button>
-    </div>
-  </div>
-</div>
-
-<!-- CALENDAR MODAL -->
-<div class="modal-overlay" id="cal-modal">
-  <div class="modal" style="max-width:520px">
-    <h2>Calendar</h2>
-    <div id="cal-list" style="margin-bottom:1.25rem;max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:8px"></div>
-    <div style="border-top:1px solid var(--border);padding-top:1.25rem;margin-bottom:1rem">
-      <p style="font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px">Add an event</p>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <input id="cal-title" type="text" placeholder="Event name" style="padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;width:100%">
-        <div style="display:flex;gap:8px">
-          <select id="cal-month" style="flex:1;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none">
-            <option value="">Month</option>
-            <option value="1">January</option><option value="2">February</option><option value="3">March</option>
-            <option value="4">April</option><option value="5">May</option><option value="6">June</option>
-            <option value="7">July</option><option value="8">August</option><option value="9">September</option>
-            <option value="10">October</option><option value="11">November</option><option value="12">December</option>
-          </select>
-          <select id="cal-day" style="flex:1;padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none">
-            <option value="">Day</option>
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option>
-          </select>
-        </div>
-        <input id="cal-note" type="text" placeholder="Note (optional)" style="padding:9px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;width:100%">
-        <button onclick="addEvent()" style="padding:10px;border-radius:100px;border:none;color:#000;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;position:relative;overflow:hidden">
-          <span style="position:relative;z-index:1">Add event</span>
-          <span style="position:absolute;inset:0;background:linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F)"></span>
-        </button>
-      </div>
-    </div>
-    <div class="modal-actions" style="margin-top:0">
-      <button class="btn-primary" onclick="closeCalendar()"><span>Close</span></button>
     </div>
   </div>
 </div>
@@ -305,12 +266,12 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, collection, doc, onSnapshot, addDoc, updateDoc, deleteDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBJdjIBAexSg4azwEYwtHSh2zVYK2i9MfQ",
-  authDomain: "all-about-you-2.firebaseapp.com",
-  projectId: "all-about-you-2",
-  storageBucket: "all-about-you-2.firebasestorage.app",
-  messagingSenderId: "73570586310",
-  appId: "1:73570586310:web:4315193eb9f399307211c7"
+  apiKey: "AIzaSyCPFKQtyzcU_poQxKwt4ZqyHQZaD0P7eBo",
+  authDomain: "all-about-you-adeb7.firebaseapp.com",
+  projectId: "all-about-you-adeb7",
+  storageBucket: "all-about-you-adeb7.firebasestorage.app",
+  messagingSenderId: "10842317132",
+  appId: "1:10842317132:web:7793e64e7a9b73dafcefe9"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -321,7 +282,7 @@ let friends = [], categories = [], currentFriendId = null;
 let unsubFriends = null, unsubCats = null;
 const AVCOLORS = ['av-0','av-1','av-2','av-3','av-4','av-5','av-6'];
 const PILLCOLORS = ['pc-0','pc-1','pc-2','pc-3','pc-4','pc-5','pc-6'];
-const DOTCOLORS = ['#E63946','#F4A261','#E9C46A','#E76F51','#A8282A','#C1440E','#F4D03F'];
+const DOTCOLORS = ['#FF3B3B','#FF7A00','#FFD000','#00C853','#0075FF','#7C3AED','#D500F9'];
 
 // VIEWS
 function showView(name) {
@@ -398,7 +359,7 @@ onAuthStateChanged(auth, user => {
 
 function startListening() {
   unsubCats = onSnapshot(doc(db,'config','categories'), snap => {
-    categories = snap.exists() ? (snap.data().list||[]).slice().sort((a,b)=>a.localeCompare(b)) : [];
+    categories = snap.exists() ? (snap.data().list||[]).sort((a,b) => a.localeCompare(b)) : [];
     renderCatManagerList();
     if(currentFriendId) { const f=friends.find(x=>x.id===currentFriendId); if(f) renderFriendPage(f); }
   });
@@ -406,11 +367,6 @@ function startListening() {
     friends = snap.docs.map(d=>({id:d.id,...d.data()}));
     renderCards();
     if(currentFriendId) { const f=friends.find(x=>x.id===currentFriendId); if(f) renderFriendPage(f); else goHome(); }
-  });
-
-  onSnapshot(collection(db,'events'), snap => {
-    window._calEvents = snap.docs.map(d=>({id:d.id,...d.data()}));
-    if(document.getElementById('cal-modal').classList.contains('open')) renderCalendar();
   });
 }
 
@@ -444,7 +400,7 @@ function renderCatManagerList() {
       <div style="display:flex;gap:6px;align-items:center">
         <button id="cat-edit-btn-${i}" onclick="startCategoryEdit(${i})" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:15px;padding:0 4px">✏️</button>
         <button id="cat-save-btn-${i}" onclick="saveCategoryEdit(${i})" style="display:none;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:13px;padding:0 4px;font-family:'DM Sans',sans-serif">Save</button>
-        <button onclick="removeCategory(${i})" aria-label="Remove">×</button>
+        <button onclick="removeCategory(${i})" aria-label="Remove ${c}">×</button>
       </div>
     </div>`).join('');
 }
@@ -541,6 +497,7 @@ window.claimPage = async (id) => {
 window.renderCards = () => {
   const q = document.getElementById('search').value.toLowerCase();
   const grid = document.getElementById('friends-grid');
+  const name_gradient = 'linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9)';
 
   // Search results view
   if(q) {
@@ -574,7 +531,7 @@ window.renderCards = () => {
       }).join('');
 
       return `<div style="grid-column:1/-1">
-        <div style="font-size:18px;font-weight:500;font-family:'Righteous',sans-serif;background:${name_gradient};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;cursor:pointer" onclick="openFriendPage('${f.id}','${q.replace(/'/g,"\'")}')">
+        <div style="font-size:18px;font-weight:500;font-family:'Righteous',sans-serif;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;cursor:pointer" onclick="openFriendPage('${f.id}','${q.replace(/'/g,"\'")}')">
           ${f.name} <span style="font-size:13px;-webkit-text-fill-color:var(--text-muted);color:var(--text-muted);font-family:'DM Sans',sans-serif;font-weight:400">→ view page</span>
         </div>
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:1.25rem">${catCards || `<div style="font-size:13px;color:var(--text-muted)">Name match</div>`}</div>
@@ -609,6 +566,17 @@ window.renderCards = () => {
     });
   }
 
+  // Birthday banner
+  const birthdayFriends = friends.filter(f => isBirthdayToday(f.entries||{}));
+  const banner = document.getElementById('bday-banner');
+  if(birthdayFriends.length) {
+    const names = birthdayFriends.map(f => f.name).join(' & ');
+    banner.textContent = `🎂 Happy Birthday, ${names}! 🎂`;
+    banner.style.display = 'block';
+  } else {
+    banner.style.display = 'none';
+  }
+
   grid.innerHTML = filtered.map(f => {
     const entries = f.entries||{};
     const total = Object.values(entries).reduce((s,a)=>s+a.length,0);
@@ -616,19 +584,12 @@ window.renderCards = () => {
     const pills = filledCats.map(c=>`<span class="card-cat-pill" style="background:${DOTCOLORS[categories.indexOf(c)%DOTCOLORS.length]}">${c}</span>`).join('');
     const bday = isBirthdayToday(entries);
     const isMe = auth.currentUser && f.ownerUid === auth.currentUser.uid;
-    return `<div class="friend-card" onclick="openFriendPage('${f.id}', this.dataset.q)" data-q="${(q||'').replace(/"/g,'&quot;')}" style="${isMe ? 'border:2px solid transparent;background-image:linear-gradient(var(--surface),var(--surface)),linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F);background-origin:border-box;background-clip:padding-box,border-box;' : ''}">
-      <div style="display:flex;align-items:center;justify-content:flex-start;gap:8px;text-align:left">
-        <div class="card-name" style="font-family:'Righteous',sans-serif;background:linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${f.name}</div>
+    return `<div class="friend-card" onclick="openFriendPage('${f.id}', this.dataset.q)" data-q="${(q||'').replace(/"/g,'&quot;')}" style="${isMe ? 'border:2px solid transparent;background-image:linear-gradient(var(--surface),var(--surface)),linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);background-origin:border-box;background-clip:padding-box,border-box;' : ''}">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="card-name" style="font-family:'Righteous',sans-serif;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">${f.name}</div>
         ${bday ? '<span style="font-size:20px">🎂</span>' : ''}
       </div>
-      ${f.note ? `<div class="card-meta" style="margin-top:4px;text-align:left">${f.note}</div>` : ''}
-      ${q ? (() => {
-        const matches = [];
-        Object.entries(entries).forEach(([cat, arr]) => {
-          arr.forEach(e => { if(e.toLowerCase().includes(q)) matches.push(e); });
-        });
-        return matches.length ? `<div class="card-meta" style="margin-top:4px;font-style:italic;color:var(--text-muted)">"${matches.slice(0,2).join('", "')}"</div>` : '';
-      })() : ''}
+      ${f.note ? `<div class="card-meta" style="margin-top:4px">${f.note}</div>` : ''}
     </div>`;
   }).join('');
 };
@@ -650,13 +611,12 @@ function renderFriendPage(f, searchTerm) {
   document.getElementById('fp-name').innerHTML = `<span class="rainbow-text">${f.name}</span>`;
   document.getElementById('fp-delete-btn').onclick = () => deleteFriend(f.id);
 
-  // Show edit name/note controls for owner
   const editEl = document.getElementById('fp-edit');
   if(isOwner) {
     editEl.innerHTML = `<div style="display:flex;gap:8px;margin-top:0.75rem;flex-wrap:wrap">
       <input id="edit-name" type="text" value="${f.name.replace(/"/g,'&quot;')}" placeholder="Name" style="padding:7px 12px;border-radius:100px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;flex:1;min-width:120px">
       <input id="edit-note" type="text" value="${(f.note||'').replace(/"/g,'&quot;')}" placeholder="Note (optional)" style="padding:7px 12px;border-radius:100px;border:1px solid var(--border);background:var(--surface);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;flex:1;min-width:120px">
-      <button onclick="saveName('${f.id}')" style="padding:7px 16px;border-radius:100px;border:none;color:#000;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;position:relative;overflow:hidden;white-space:nowrap"><span style="position:relative;z-index:1">Save</span><span style="position:absolute;inset:0;background:linear-gradient(90deg,#E63946,#F4A261,#E9C46A,#E76F51,#A8282A,#C1440E,#F4D03F)"></span></button>
+      <button onclick="saveName('${f.id}')" style="padding:7px 16px;border-radius:100px;border:none;color:#000;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;position:relative;overflow:hidden;white-space:nowrap"><span style="position:relative;z-index:1">Save</span><span style="position:absolute;inset:0;background:linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9)"></span></button>
     </div>`;
   } else {
     editEl.innerHTML = '';
@@ -683,8 +643,6 @@ function renderFriendPage(f, searchTerm) {
     return;
   }
 
-  const matchCatIdx = searchTerm ? categories.findIndex((cat,ci) => (f.entries&&f.entries[cat]||[]).some(e=>e.toLowerCase().includes(searchTerm.toLowerCase()))) : -1;
-
   fp.innerHTML = categories.map((cat,ci) => {
     const inputId = `inp-${f.id}-${ci}`;
     const items = entries[cat]||[];
@@ -696,7 +654,7 @@ function renderFriendPage(f, searchTerm) {
 
     const tags = items.map((e,i)=>{
       const isMatch = searchTerm && e.toLowerCase().includes(searchTerm.toLowerCase());
-      return `<span class="entry-tag" ${isMatch?'style="border-color:var(--r);background:#fff8f0;font-weight:500"':''}>${e}${removeBtns?`<button onclick="removeEntry('${f.id}',${ci},${i})" aria-label="Remove">×</button>`:''}</span>`;
+      return `<span class="entry-tag" ${isMatch?'style="border-color:var(--r);background:#fff5f5;font-weight:500"':''}>${e}${removeBtns?`<button onclick="removeEntry('${f.id}',${ci},${i})" aria-label="Remove">×</button>`:''}</span>`;
     }).join('');
     const addRow = isOwner ? `<div class="add-entry">
         <input id="${inputId}" type="text" placeholder="Add…" onkeydown="if(event.key==='Enter')addEntry('${f.id}',${ci})">
@@ -722,87 +680,6 @@ window.closeCatModal = () => { document.getElementById('cat-modal').classList.re
 document.getElementById('friend-modal').addEventListener('click',e=>{if(e.target===document.getElementById('friend-modal'))closeFriendModal();});
 document.getElementById('cat-modal').addEventListener('click',e=>{if(e.target===document.getElementById('cat-modal'))closeCatModal();});
 
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-function getDaysUntil(month, day) {
-  const now = new Date();
-  const thisYear = new Date(now.getFullYear(), month - 1, day);
-  const nextYear = new Date(now.getFullYear() + 1, month - 1, day);
-  const diff = thisYear - now;
-  return diff >= -86400000 ? Math.ceil(diff / 86400000) : Math.ceil((nextYear - now) / 86400000);
-}
-
-window.openCalendar = () => {
-  document.getElementById('cal-modal').classList.add('open');
-  renderCalendar();
-};
-window.closeCalendar = () => { document.getElementById('cal-modal').classList.remove('open'); };
-
-function renderCalendar() {
-  const list = document.getElementById('cal-list');
-
-  // Gather birthdays from friend profiles
-  const birthdayEntries = [];
-  friends.forEach(f => {
-    const bdays = (f.entries && f.entries['Birthday']) || [];
-    bdays.forEach(b => {
-      // Try to parse "Month Day" or "MM/DD" formats
-      const months = ['january','february','march','april','may','june','july','august','september','october','november','december'];
-      let month = null, day = null;
-      const slashMatch = b.match(/^(\d{1,2})[\/\-](\d{1,2})/);
-      const wordMatch = b.match(/([a-zA-Z]+)\s+(\d{1,2})/);
-      if(slashMatch) { month = parseInt(slashMatch[1]); day = parseInt(slashMatch[2]); }
-      else if(wordMatch) { month = months.indexOf(wordMatch[1].toLowerCase()) + 1; day = parseInt(wordMatch[2]); }
-      if(month && day && month >= 1 && month <= 12 && day >= 1 && day <= 31) {
-        birthdayEntries.push({ type: 'birthday', name: f.name, month, day, daysUntil: getDaysUntil(month, day) });
-      }
-    });
-  });
-
-  // Gather events from Firestore (already loaded)
-  const eventEntries = (window._calEvents || []).map(e => ({
-    ...e, type: 'event', daysUntil: getDaysUntil(e.month, e.day)
-  }));
-
-  const all = [...birthdayEntries, ...eventEntries].sort((a,b) => a.daysUntil - b.daysUntil);
-
-  if(!all.length) { list.innerHTML = '<p style="font-size:14px;color:var(--text-muted);text-align:center;padding:1rem">No upcoming dates yet.</p>'; return; }
-
-  list.innerHTML = all.map(e => {
-    const label = e.daysUntil === 0 ? 'Today! 🎉' : e.daysUntil === 1 ? 'Tomorrow' : `In ${e.daysUntil} days`;
-    const icon = e.type === 'birthday' ? '🎂' : '📅';
-    const deleteBtn = e.type === 'event' ? `<button onclick="deleteEvent('${e.id}')" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px;margin-left:auto" aria-label="Remove">×</button>` : '';
-    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--surface);border-radius:10px;border:1px solid var(--border)">
-      <span style="font-size:22px">${icon}</span>
-      <div style="flex:1">
-        <div style="font-size:14px;font-weight:500;color:var(--text)">${e.type === 'birthday' ? e.name : e.title}</div>
-        <div style="font-size:12px;color:var(--text-muted)">${MONTHS[e.month-1]} ${e.day}${e.note ? ' · ' + e.note : ''} · ${label}</div>
-      </div>
-      ${deleteBtn}
-    </div>`;
-  }).join('');
-}
-
-window.addEvent = async () => {
-  const title = document.getElementById('cal-title').value.trim();
-  const month = parseInt(document.getElementById('cal-month').value);
-  const day = parseInt(document.getElementById('cal-day').value);
-  const note = document.getElementById('cal-note').value.trim();
-  if(!title || !month || !day) { showToast('Please fill in event name, month and day.'); return; }
-  await addDoc(collection(db,'events'), { title, month, day, note });
-  document.getElementById('cal-title').value = '';
-  document.getElementById('cal-month').value = '';
-  document.getElementById('cal-day').value = '';
-  document.getElementById('cal-note').value = '';
-  showToast('Event added!');
-};
-
-window.deleteEvent = async (id) => {
-  if(!confirm('Remove this event?')) return;
-  await deleteDoc(doc(db,'events',id));
-  showToast('Event removed.');
-};
-
 function showToast(msg) {
   const t=document.getElementById('toast');
   document.getElementById('toast-text').textContent=msg;
@@ -812,7 +689,7 @@ function showToast(msg) {
 </script>
 <script>
 if('serviceWorker' in navigator) {
-  window.addEventListener('load', () => { navigator.serviceWorker.register('/AAY2/sw.js'); });
+  window.addEventListener('load', () => { navigator.serviceWorker.register('/AllAboutYou/sw.js'); });
 }
 </script>
 </body>
