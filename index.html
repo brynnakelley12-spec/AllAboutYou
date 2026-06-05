@@ -497,6 +497,7 @@ window.claimPage = async (id) => {
 window.renderCards = () => {
   const q = document.getElementById('search').value.toLowerCase();
   const grid = document.getElementById('friends-grid');
+  const name_gradient = 'linear-gradient(90deg,#FF3B3B,#FF7A00,#FFD000,#00C853,#0075FF,#7C3AED,#D500F9)';
 
   // Search results view
   if(q) {
